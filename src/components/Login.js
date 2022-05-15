@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useState} from "react";
 import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
@@ -9,6 +9,7 @@ import TextField from '@mui/material/TextField';
 import Stack from '@mui/material/Stack';
 import {useFormik} from "formik";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+
 
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -26,6 +27,30 @@ const Item = styled(Paper)(({ theme }) => ({
 
 const Login = () => {
 
+  const [state, setstate] = useState([
+    {
+      id: 1,
+      email: 'serife@hotmail.com',
+      password: '12345'
+    },
+    {
+      id: 2,
+      email: 'feza@hotmail.com',
+      password: 'feza123'
+    },
+    {
+      id: 1,
+      email: 'leyla@hotmail.com',
+      password: 'leylo'
+    },
+    {
+      id:1,
+      email:'kbtrgt@hotmail.com',
+      password:'kbtrgt95'
+    }
+  ]
+);
+  
     const Formik = useFormik({
         initialValues: {
           email:"",
@@ -33,7 +58,15 @@ const Login = () => {
         },
         enableReinitialize:true,
         onSubmit:(values,{setSubmitting}) => {
-          alert(JSON.stringify(values))
+          console.log(values.email);
+          console.log(values.password)
+
+          let  x = state.filter( (e) => e.email === values.email && e.password === values.password);
+
+          {
+            x.length >= 1 ? (window.location.href='/user') : (window.location.href='/signup');
+          }
+
         }
       })
     
@@ -81,6 +114,9 @@ const Login = () => {
             Giriş</Button>
             </Grid>
             </form>
+            <Typography variant="overline" display="block" gutterBottom>
+              
+            </Typography>   
           </Box>
         
 
