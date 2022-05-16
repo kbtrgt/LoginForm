@@ -6,6 +6,7 @@ import Typography from '@mui/material/Typography';
 
 
 
+
 const SignUp = () => {
 
 
@@ -16,40 +17,46 @@ const SignUp = () => {
 }
 
   const [user,setUser] = useState (initialValues);
+  const [register, setRegister] = useState([]);
 
   
 
   const HandleInputChange = (e) => {
+    const { name, value } = e.target;
+    setUser({
+      ...user,
+      [name]: value,
+    });
+    return user;
+  };
 
-      const {name,value} = e.target;
-      
-      setUser({
-        ...user,
-        [name]:value,
-      });
-
-  }
-
-  useEffect(() => {
+ // useEffect(() => {
     
-      localStorage.setItem("user",JSON.stringify(user))
+    //  localStorage.setItem("user",JSON.stringify(user))
 
-  },[user]);
+  //},[user]);
 
-  console.log('user : ',user)
   
-
-  const handleSubmit = (event) => {
-      event.preventDefault();
-  }
-
+  
+  const handleSubmit = (handleChange) => {
+    handleChange.preventDefault();
+    setRegister([
+      ...register,
+      { username: user.username, email: user.email, password: user.password },
+    ]);
+    fetch('../User.json', {
+      method: 'GET/HEAD',
+      body: register,
+    });
+  };
+  console.log(register);
   return (
     
     <div style={{marginTop:'75px',width:'400px',height:'70vh',margin:'0 auto',border:'5px solid pink',borderRadius:'20px',display:'flex',justifyContent:'center',alignItems:'center',flexDirection:'column',gap:'50px'}}>
     <Typography variant="h3" textAlign={'center'} component="div" gutterBottom sx={{color:'pink'}}>
     Üye Ol
     </Typography>
-    <form  style={{display:'flex',flexDirection:'column',justifyContent:'center',alignItems:'center',gap:'15px'}}>
+    <form onSubmit={handleSubmit}  style={{display:'flex',flexDirection:'column',justifyContent:'center',alignItems:'center',gap:'15px'}}>
     <TextField 
     
      
